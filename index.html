@@ -20,7 +20,13 @@
   body { background: var(--paper); color: var(--ink); font-family: 'Crimson Text', Georgia, serif; min-height: 100vh; }
 
   .masthead { background: var(--ink); color: var(--paper); }
-  .masthead-meta { display: flex; justify-content: space-between; align-items: center; padding: 10px 48px; border-bottom: 1px solid #2a2a2a; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.1em; }
+.masthead-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 48px;
+  max-width: 1200px;
+  margin: 0 auto; border-bottom: 1px solid #2a2a2a; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.1em; }
   .masthead-logo { text-align: center; padding: 56px 48px 36px; }
   .masthead-logo h1 { font-family: 'Playfair Display', serif; font-size: clamp(72px, 14vw, 148px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.92; color: var(--paper); }
   .masthead-logo h1 em { color: var(--accent); font-style: normal; }
@@ -92,7 +98,10 @@
   .num-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
 
   /* FOOTER */
-  footer { background: var(--ink); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.08em; flex-wrap: wrap; gap: 12px; border-top: 4px double var(--accent); }
+  footer {
+  background: var(--ink);
+  padding: 40px 0;
+  display: flex; justify-content: space-between; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.08em; flex-wrap: wrap; gap: 12px; border-top: 4px double var(--accent); }
   footer a { color: var(--grey-light); text-decoration: none; transition: color 0.15s; }
   footer a:hover { color: var(--paper); }
   .footer-links { display: flex; gap: 28px; }
@@ -241,13 +250,11 @@
 </div>
 
 <footer>
-  <span>WikiPath © 2026</span>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="game.html">Play</a>
-    <a href="how.html">How to Play</a>
+  <div style="max-width:1200px; margin:0 auto; width:100%; padding:0 48px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <span>WikiPath © 2026</span>
+    <div class="footer-links">...</div>
+    <span>Powered by the MediaWiki API</span>
   </div>
-  <span>Powered by the MediaWiki API</span>
 </footer>
 
 <script>
