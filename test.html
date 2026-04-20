@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WikiPath — Navigate the Web of Knowledge</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f4f0e8;
+    --paper-dark: #e8e2d4;
+    --accent: #c8102e;
+    --accent-muted: #8b0d20;
+    --gold: #b8960c;
+    --grey: #5a5550;
+    --grey-light: #9a9590;
+    --border: #2a2420;
+    --shadow: rgba(13,13,13,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(0,0,0,0.03) 27px,
+        rgba(0,0,0,0.03) 28px
+      );
+  }
+
+  /* ── MASTHEAD ── */
+  #masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    border-bottom: 4px double var(--accent);
+  }
+
+  #masthead-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 32px;
+    border-bottom: 1px solid #333;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--grey-light);
+    letter-spacing: 0.08em;
+  }
+
+  #logo {
+    text-align: center;
+    padding: 18px 32px 14px;
+    border-bottom: 1px solid #222;
+  }
+
+  #logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 7vw, 84px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--paper);
+  }
+
+  #logo h1 span { color: var(--accent); }
+
+  #logo .tagline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    margin-top: 4px;
+  }
+
+  /* ── MISSION BAR ── */
+  #mission-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 32px;
+    background: var(--ink);
+  }
+
+  .mission-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mission-item.start { text-align: left; }
+  .mission-item.target { text-align: right; }
+
+  .mission-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+  }
+
+  .mission-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(15px, 2.5vw, 22px);
+    font-weight: 700;
+    color: var(--paper);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mission-title.target-title { color: var(--accent); }
+
+  .mission-arrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    color: var(--accent);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* ── STATS BAR ── */
+  #stats-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 10px 32px;
+    background: var(--paper-dark);
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat-group { display: flex; align-items: center; gap: 20px; }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+    opacity: 0.3;
+  }
+
+  .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 2px solid var(--border);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn.danger {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn.danger:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  /* ── BREADCRUMB ── */
+  #breadcrumb-bar {
+    padding: 8px 32px;
+    border-bottom: 1px solid var(--paper-dark);
+    background: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--grey);
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  #breadcrumb-bar::-webkit-scrollbar { display: none; }
+
+  #breadcrumb-list { display: inline-flex; align-items: center; gap: 6px; }
+
+  .crumb {
+    color: var(--grey);
+    white-space: nowrap;
+  }
+
+  .crumb.current {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .crumb-sep { color: var(--grey-light); opacity: 0.5; }
+
+  /* ── MAIN LAYOUT ── */
+  #layout {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ── ARTICLE ── */
+  #article-container {
+    position: relative;
+  }
+
+  #article-header {
+    border-bottom: 3px double var(--border);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  #page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  #page-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--grey);
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Wikipedia content overrides */
+  #article-body {
+    position: relative;
+  }
+
+  #article-body p {
+    margin-bottom: 1em;
+    font-size: 17px;
+    line-height: 1.75;
+    color: #1a1612;
+  }
+
+  #article-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 2em 0 0.5em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  #article-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 1.5em 0 0.4em;
+  }
+
+  #article-body h4, #article-body h5, #article-body h6 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 1.2em 0 0.3em;
+  }
+
+  /* Valid internal wiki links — navigable */
+  #article-body a.wiki-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  #article-body a.wiki-link:hover {
+    background: rgba(200,16,46,0.08);
+    border-radius: 2px;
+  }
+
+  /* Disabled links (external, file, etc) */
+  #article-body a.wiki-disabled {
+    color: var(--grey);
+    text-decoration: none;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  #article-body table {
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  #article-body table td, #article-body table th {
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  #article-body table th {
+    background: var(--paper-dark);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  #article-body ul, #article-body ol {
+    margin: 0.5em 0 1em 1.5em;
+  }
+
+  #article-body li { margin-bottom: 0.3em; }
+
+  #article-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+    border: 1px solid var(--paper-dark);
+  }
+
+  #article-body .infobox,
+  #article-body .infobox_v3,
+  #article-body [class*="infobox"] {
+    float: right;
+    clear: right;
+    margin: 0 0 1.5em 2em;
+    border: 1px solid #ccc;
+    background: var(--paper-dark);
+    padding: 8px;
+    max-width: 280px;
+    font-size: 14px;
+  }
+
+  /* Remove Wikipedia UI chrome we don't need */
+  #article-body .mw-editsection,
+  #article-body .noprint,
+  #article-body .mw-jump-link,
+  #article-body #toc,
+  #article-body .reflist,
+  #article-body .references,
+  #article-body .navbox,
+  #article-body .navbox-inner,
+  #article-body .sidebar,
+  #article-body .hatnote { display: none !important; }
+
+  /* ── LOADING ── */
+  #loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+    gap: 16px;
+  }
+
+  #loading.active { display: flex; }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--paper-dark);
+    border-top-color: var(--ink);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--grey);
+    text-transform: uppercase;
+  }
+
+  /* ── WIN OVERLAY ── */
+  #win-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,13,13,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+
+  #win-overlay.active { display: flex; }
+
+  #win-card {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    padding: 48px 56px;
+    text-align: center;
+    max-width: 520px;
+    width: 90%;
+    position: relative;
+    animation: winIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes winIn {
+    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+
+  #win-card::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--border);
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  #win-card .win-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  #win-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  #win-card .win-sub {
+    font-size: 16px;
+    color: var(--grey);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  #win-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 32px;
+    padding: 20px 0;
+    border-top: 1px solid var(--paper-dark);
+    border-bottom: 1px solid var(--paper-dark);
+  }
+
+  .win-stat { text-align: center; }
+
+  .win-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .win-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 4px;
+  }
+
+  #win-path {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--grey);
+    margin-bottom: 28px;
+    line-height: 1.8;
+    text-align: left;
+    background: var(--paper-dark);
+    padding: 12px 16px;
+    border-left: 3px solid var(--accent);
+  }
+
+  #win-path span { color: var(--ink); }
+
+  .win-buttons { display: flex; gap: 12px; justify-content: center; }
+
+  /* ── SPLASH ── */
+  #splash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+    gap: 24px;
+  }
+
+  #splash p {
+    max-width: 480px;
+    color: var(--grey);
+    font-size: 17px;
+    font-style: italic;
+  }
+
+  #splash .start-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  #splash .start-btn:hover { background: var(--accent); }
+
+  #splash h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  /* ── DIFFICULTY ── */
+  .diff-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .diff-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+
+  .diff-pill:hover, .diff-pill.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ── TIMER ── */
+  #timer-display {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  #timer-display.warning { color: var(--accent); animation: pulse 0.6s ease infinite alternate; }
+
+  @keyframes pulse { from { opacity: 1; } to { opacity: 0.5; } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    #mission-bar { grid-template-columns: 1fr auto; }
+    .mission-item.target { display: none; }
+    #stats-bar { gap: 12px; }
+    #layout { padding: 20px 16px 60px; }
+    #win-card { padding: 32px 24px; }
+  }
+
+  /* Column rule decoration */
+  .col-rule {
+    border: none;
+    border-top: 3px double var(--border);
+    margin: 28px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header id="masthead">
+  <div id="masthead-top">
+    <span id="date-display">MONDAY, APRIL 2026</span>
+    <span>EXPLORE · NAVIGATE · DISCOVER</span>
+    <span>EST. 2025</span>
+  </div>
+  <div id="logo">
+    <h1>Wiki<span>Path</span></h1>
+    <div class="tagline">Navigate the Web of Knowledge</div>
+  </div>
+  <div id="mission-bar">
+    <div class="mission-item start">
+      <span class="mission-label">Start</span>
+      <span class="mission-title" id="header-start">—</span>
+    </div>
+    <div class="mission-arrow">→</div>
+    <div class="mission-item target">
+      <span class="mission-label">Target</span>
+      <span class="mission-title target-title" id="header-target">—</span>
+    </div>
+  </div>
+</header>
+
+<!-- STATS BAR -->
+<div id="stats-bar">
+  <div class="stat-group">
+    <div class="stat">
+      <div class="stat-num" id="click-counter">0</div>
+      <div class="stat-label">Clicks</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num" id="page-counter">0</div>
+      <div class="stat-label">Pages</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div id="timer-display">0:00</div>
+    <div class="stat-divider"></div>
+    <div class="diff-pills">
+      <button class="diff-pill active" data-diff="easy" title="Common topics">Easy</button>
+      <button class="diff-pill" data-diff="medium" title="Broader range">Med</button>
+      <button class="diff-pill" data-diff="hard" title="Obscure topics">Hard</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;">
+    <button class="btn" id="hint-btn" title="Reveal a link in the right direction">Hint (3)</button>
+    <button class="btn danger" id="new-game-btn">New Game</button>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb-bar">
+  <div id="breadcrumb-list">
+    <span class="crumb" style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;">Path:</span>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div id="layout">
+  <!-- SPLASH -->
+  <div id="splash">
+    <h3>Can you find the path?</h3>
+    <p>Navigate Wikipedia by clicking links to travel from your <em>start article</em> to the <em>target article</em>. The fewer clicks, the better.</p>
+    <div class="diff-pills" style="margin-top:4px;">
+      <button class="diff-pill active" data-diff-splash="easy">Easy</button>
+      <button class="diff-pill" data-diff-splash="medium">Medium</button>
+      <button class="diff-pill" data-diff-splash="hard">Hard</button>
+    </div>
+    <button class="start-btn" id="splash-start-btn">Begin Journey</button>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loading-msg">Fetching article…</div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div id="article-container" style="display:none;">
+    <div id="article-header">
+      <div id="page-title">Article Title</div>
+      <div id="page-subtitle">wikipedia.org</div>
+    </div>
+    <div id="article-body"></div>
+  </div>
+</div>
+
+<!-- WIN OVERLAY -->
+<div id="win-overlay">
+  <div id="win-card">
+    <div class="win-eyebrow">★ You made it ★</div>
+    <h2>Path Found!</h2>
+    <p class="win-sub">You've reached the target article</p>
+    <div id="win-stats">
+      <div class="win-stat">
+        <div class="win-stat-num" id="win-clicks">0</div>
+        <div class="win-stat-label">Clicks</div>
+      </div>
+      <div class="win-stat">
+        <div class="win-stat-num" id="win-time">0:00</div>
+        <div class="win-stat-label">Time</div>
+      </div>
+      <div class="win-stat">
+        <div class="win-stat-num" id="win-rating">—</div>
+        <div class="win-stat-label">Rating</div>
+      </div>
+    </div>
+    <div id="win-path"></div>
+    <div class="win-buttons">
+      <button class="btn" id="win-share-btn">Copy Result</button>
+      <button class="btn danger" id="win-new-btn">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  WIKIPATH — Core Game Logic
+// ═══════════════════════════════════════════════════════════════
+
+// ── Topic pools by difficulty ──────────────────────────────────
+const TOPICS = {
+  easy: [
+    'Pizza','Football','Dog','Music','Ocean','Sun','Moon','Rain',
+    'Water','Fire','Tree','Bird','Fish','Cat','Horse','Book',
+    'Film','Dance','Art','Gold','Silver','Iron','Coffee','Tea',
+    'Apple','Banana','Rice','Bread','Cheese','Wine','Beer','Milk',
+    'Paris','Rome','London','Tokyo','Egypt','Japan','France','Germany',
+    'Africa','India','China','Brazil','Canada','Australia','Russia','Italy',
+    'Mountain','River','Lake','Desert','Forest','Island','Volcano','Cave',
+    'Baseball','Basketball','Tennis','Swimming','Cycling','Boxing','Chess','Golf'
+  ],
+  medium: [
+    'Beethoven','Napoleon','Darwin','Cleopatra','Einstein','Newton','Plato','Shakespeare',
+    'Renaissance','Monarchy','Democracy','Revolution','Colonialism','Feudalism','Empire','Republic',
+    'Photosynthesis','Gravity','Evolution','Relativity','Quantum_mechanics','Genetics','Ecology','Astronomy',
+    'Jazz','Opera','Ballet','Surrealism','Romanticism','Gothic_architecture','Baroque','Impressionism',
+    'Marathon','Olympic_Games','Tour_de_France','Formula_One','Cricket','Rugby','Polo','Fencing',
+    'Volcano','Earthquake','Hurricane','Tsunami','Climate','Glacier','Coral_reef','Tundra',
+    'Airline','Railroad','Shipping','Automobile','Helicopter','Submarine','Satellite','Telescope'
+  ],
+  hard: [
+    'Hegelian_dialectics','Semiotics','Phenomenology_(philosophy)','Epistemology','Ontology','Hermeneutics',
+    'Cambrian_explosion','Mitochondria','Ribosome','Endosymbiont','Archaea','Cephalopod','Tardigrade',
+    'Fourier_transform','Riemann_hypothesis','Topology','Linear_algebra','Differential_geometry','Number_theory',
+    'Akkadian_Empire','Sassanid_Empire','Byzantine_Empire','Khmer_Empire','Maurya_Empire','Songhai_Empire',
+    'Synapse','Hippocampus','Amygdala','Cerebellum','Neurotransmitter','Axon','Glia',
+    'Lichen','Bryophyte','Mycorrhiza','Halophyte','Mangrove','Peat','Loess',
+    'Supernova','Neutron_star','Quasar','Dark_matter','Cosmic_microwave_background','Parallax'
+  ]
+};
+
+// ── State ──────────────────────────────────────────────────────
+const state = {
+  startPage: null,
+  targetPage: null,
+  currentPage: null,
+  clicks: 0,
+  pages: 0,
+  path: [],
+  gameActive: false,
+  difficulty: 'easy',
+  timer: null,
+  seconds: 0,
+  hints: 3,
+  hintUsed: false
+};
+
+// ── DOM refs ───────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const clickCounter   = $('click-counter');
+const pageCounter    = $('page-counter');
+const timerDisplay   = $('timer-display');
+const breadcrumbList = $('breadcrumb-list');
+const articleBody    = $('article-body');
+const pageTitle      = $('page-title');
+const pageSub        = $('page-subtitle');
+const articleCont    = $('article-container');
+const loadingDiv     = $('loading');
+const loadingMsg     = $('loading-msg');
+const splash         = $('splash');
+const winOverlay     = $('win-overlay');
+const headerStart    = $('header-start');
+const headerTarget   = $('header-target');
+const hintBtn        = $('hint-btn');
+
+// ── Utility ────────────────────────────────────────────────────
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return `${m}:${ss.toString().padStart(2, '0')}`;
+}
+
+function decodeTitle(slug) {
+  return decodeURIComponent(slug.replace(/_/g, ' '));
+}
+
+function encodeTitle(title) {
+  return encodeURIComponent(title.replace(/ /g, '_'));
+}
+
+function getRating(clicks) {
+  if (clicks <= 3) return '★★★';
+  if (clicks <= 6) return '★★☆';
+  if (clicks <= 10) return '★☆☆';
+  return '☆☆☆';
+}
+
+// ── Random page selection ──────────────────────────────────────
+function pickTwoPages(diff) {
+  const pool = TOPICS[diff];
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return [shuffled[0], shuffled[1]];
+}
+
+// ── MediaWiki API fetch ────────────────────────────────────────
+async function fetchWikiPage(title) {
+  // Use Wikipedia's REST parse API — returns HTML content
+  const url = `https://en.wikipedia.org/w/api.php?` + new URLSearchParams({
+    action: 'parse',
+    page: title,
+    prop: 'text|displaytitle',
+    format: 'json',
+    origin: '*',
+    redirects: '1'
+  });
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+
+  if (data.error) throw new Error(data.error.info);
+
+  return {
+    title: data.parse.title,
+    displayTitle: data.parse.displaytitle,
+    html: data.parse.text['*']
+  };
+}
+
+// ── Process Wikipedia HTML ─────────────────────────────────────
+// Transforms Wikipedia's raw HTML to work inside our app:
+// - Intercept /wiki/ links → clickable in-game navigation
+// - Disable external and special links
+// - Fix image URLs to be absolute
+function processHTML(html, targetTitle) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // Fix image srcs: make relative URLs absolute
+  doc.querySelectorAll('img[src]').forEach(img => {
+    const src = img.getAttribute('src');
+    if (src.startsWith('//')) img.src = 'https:' + src;
+    else if (src.startsWith('/')) img.src = 'https://en.wikipedia.org' + src;
+  });
+
+  // Process all anchor tags
+  doc.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href');
+
+    // Valid internal wiki links
+    if (href && href.startsWith('/wiki/') && !href.includes(':')) {
+      const slug = href.replace('/wiki/', '');
+      a.removeAttribute('href');
+      a.setAttribute('data-wiki', slug);
+      a.className = 'wiki-link';
+      a.style.cursor = 'pointer';
+    } else {
+      // Disable external links, File:, Category:, Help:, etc.
+      a.removeAttribute('href');
+      a.className = 'wiki-disabled';
+    }
+  });
+
+  return doc.body.innerHTML;
+}
+
+// ── Navigation ─────────────────────────────────────────────────
+async function navigateTo(title, isStart = false) {
+  if (!isStart && !state.gameActive) return;
+
+  showLoading(`Fetching "${decodeTitle(title)}"…`);
+
+  try {
+    const page = await fetchWikiPage(title);
+    state.currentPage = page.title;
+
+    if (!isStart) {
+      state.clicks++;
+      state.pages++;
+      state.path.push(page.title);
+      clickCounter.textContent = state.clicks;
+      pageCounter.textContent = state.pages;
+    }
+
+    // Render article
+    pageTitle.textContent = page.title;
+    pageSub.textContent = 'en.wikipedia.org/wiki/' + encodeTitle(page.title);
+    articleBody.innerHTML = processHTML(page.html, state.targetPage);
+    updateBreadcrumb();
+
+    hideLoading();
+    articleCont.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Check win condition
+    if (!isStart && normalizeTitle(page.title) === normalizeTitle(state.targetPage)) {
+      setTimeout(showWin, 300);
+    }
+
+  } catch (err) {
+    hideLoading();
+    articleBody.innerHTML = `<p style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:13px;">
+      Error loading page: ${err.message}. Try clicking another link.
+    </p>`;
+    articleCont.style.display = 'block';
+    console.error(err);
+  }
+}
+
+function normalizeTitle(t) {
+  return decodeURIComponent(t || '').replace(/_/g, ' ').toLowerCase().trim();
+}
+
+// ── Click delegation on article body ──────────────────────────
+// All wiki link clicks are intercepted here (event delegation)
+articleBody.addEventListener('click', e => {
+  const link = e.target.closest('a.wiki-link');
+  if (!link || !state.gameActive) return;
+  e.preventDefault();
+  const slug = link.getAttribute('data-wiki');
+  if (!slug) return;
+  navigateTo(slug);
+});
+
+// ── Breadcrumb ─────────────────────────────────────────────────
+function updateBreadcrumb() {
+  const items = state.path.map((p, i) => {
+    const isCurrent = i === state.path.length - 1;
+    return `<span class="crumb ${isCurrent ? 'current' : ''}">${p}</span>`;
+  });
+
+  const sep = '<span class="crumb-sep">›</span>';
+  const label = '<span class="crumb" style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-right:4px;">Path:</span>';
+  breadcrumbList.innerHTML = label + items.join(sep);
+  $('breadcrumb-bar').scrollLeft = 9999; // scroll to end
+}
+
+// ── Timer ──────────────────────────────────────────────────────
+function startTimer() {
+  clearInterval(state.timer);
+  state.seconds = 0;
+  timerDisplay.classList.remove('warning');
+  state.timer = setInterval(() => {
+    state.seconds++;
+    timerDisplay.textContent = fmtTime(state.seconds);
+    if (state.seconds > 180) timerDisplay.classList.add('warning');
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(state.timer);
+}
+
+// ── Hint system ────────────────────────────────────────────────
+// Highlights a link that contains the target title as a substring (naive approach)
+function applyHint() {
+  if (state.hints <= 0) return;
+  state.hints--;
+  hintBtn.textContent = `Hint (${state.hints})`;
+  if (state.hints === 0) hintBtn.disabled = true;
+
+  // Try to find any link mentioning the target
+  const targetWords = state.targetPage.replace(/_/g, ' ').toLowerCase().split(' ').filter(w => w.length > 3);
+  const links = articleBody.querySelectorAll('a.wiki-link');
+  let found = false;
+
+  for (const link of links) {
+    const slug = (link.getAttribute('data-wiki') || '').toLowerCase().replace(/_/g, ' ');
+    if (targetWords.some(w => slug.includes(w))) {
+      link.style.background = 'rgba(184,150,12,0.35)';
+      link.style.outline = '2px solid var(--gold)';
+      link.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    // Generic: highlight 3 random links as suggestions
+    const arr = Array.from(links).sort(() => Math.random() - 0.5).slice(0, 3);
+    arr.forEach(l => {
+      l.style.background = 'rgba(184,150,12,0.2)';
+      l.style.outline = '1px dashed var(--gold)';
+    });
+  }
+}
+
+// ── Loading states ─────────────────────────────────────────────
+function showLoading(msg = 'Loading…') {
+  loadingMsg.textContent = msg;
+  loadingDiv.classList.add('active');
+  articleCont.style.display = 'none';
+  splash.style.display = 'none';
+}
+
+function hideLoading() {
+  loadingDiv.classList.remove('active');
+}
+
+// ── Win screen ─────────────────────────────────────────────────
+function showWin() {
+  stopTimer();
+  state.gameActive = false;
+
+  $('win-clicks').textContent = state.clicks;
+  $('win-time').textContent = fmtTime(state.seconds);
+  $('win-rating').textContent = getRating(state.clicks);
+
+  // Show path taken
+  const pathHtml = state.path.map((p, i) =>
+    `<span>${i + 1}. <span>${p}</span></span>`
+  ).join('<br>');
+  $('win-path').innerHTML = pathHtml;
+
+  winOverlay.classList.add('active');
+}
+
+// ── New game ───────────────────────────────────────────────────
+async function startNewGame() {
+  winOverlay.classList.remove('active');
+  splash.style.display = 'none';
+  articleCont.style.display = 'none';
+  state.gameActive = false;
+  stopTimer();
+
+  const [start, target] = pickTwoPages(state.difficulty);
+  state.startPage = start;
+  state.targetPage = target;
+  state.clicks = 0;
+  state.pages = 1;
+  state.path = [decodeTitle(start)];
+  state.hints = 3;
+
+  clickCounter.textContent = '0';
+  pageCounter.textContent = '1';
+  timerDisplay.textContent = '0:00';
+  timerDisplay.classList.remove('warning');
+  hintBtn.textContent = 'Hint (3)';
+  hintBtn.disabled = false;
+
+  // Update header
+  headerStart.textContent = decodeTitle(start);
+  headerTarget.textContent = decodeTitle(target);
+
+  updateBreadcrumb();
+
+  await navigateTo(start, true);
+
+  state.gameActive = true;
+  startTimer();
+}
+
+// ── Share / copy result ────────────────────────────────────────
+function shareResult() {
+  const text = [
+    `🗺️ WikiPath`,
+    `${decodeTitle(state.startPage)} → ${decodeTitle(state.targetPage)}`,
+    `Clicks: ${state.clicks} | Time: ${fmtTime(state.seconds)} | Rating: ${getRating(state.clicks)}`,
+    `\nPath:\n` + state.path.join(' → ')
+  ].join('\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    $('win-share-btn').textContent = 'Copied!';
+    setTimeout(() => { $('win-share-btn').textContent = 'Copy Result'; }, 2000);
+  }).catch(() => {
+    prompt('Copy your result:', text);
+  });
+}
+
+// ── Difficulty toggle ──────────────────────────────────────────
+function setDifficulty(diff) {
+  state.difficulty = diff;
+  document.querySelectorAll('.diff-pill').forEach(p => {
+    p.classList.toggle('active',
+      (p.dataset.diff || p.dataset.diffSplash) === diff
+    );
+  });
+}
+
+// ── Event listeners ────────────────────────────────────────────
+$('new-game-btn').addEventListener('click', startNewGame);
+$('win-new-btn').addEventListener('click', startNewGame);
+$('win-share-btn').addEventListener('click', shareResult);
+$('splash-start-btn').addEventListener('click', startNewGame);
+hintBtn.addEventListener('click', applyHint);
+
+document.querySelectorAll('.diff-pill').forEach(p => {
+  p.addEventListener('click', () => {
+    const diff = p.dataset.diff || p.dataset.diffSplash;
+    if (diff) setDifficulty(diff);
+  });
+});
+
+// ── Date display ───────────────────────────────────────────────
+const d = new Date();
+$('date-display').textContent = d.toLocaleDateString('en-US', {
+  weekday: 'long', month: 'long', year: 'numeric'
+}).toUpperCase();
+</script>
+</body>
+</html>
