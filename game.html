@@ -50,6 +50,8 @@
     font-size: 10px;
     color: var(--grey-light);
     letter-spacing: 0.1em;
+    max-width: 1200px;
+margin: 0 auto;
   }
 
   .masthead-logo {
@@ -114,6 +116,8 @@
     padding: 14px 48px;
     background: var(--ink);
     border-top: 1px solid #222;
+    max-width: 1200px;
+margin: 0 auto;
   }
 
   .mission-item { display: flex; flex-direction: column; gap: 2px; }
@@ -465,7 +469,7 @@
   ══════════════════════════════════════════ */
   footer {
     background: var(--ink);
-    padding: 40px 48px;
+    padding: 40px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -584,13 +588,11 @@
 
 <!-- ══ FOOTER — identical to index.html ══ -->
 <footer>
-  <span>WikiPath © 2026</span>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="game.html">Play</a>
-    <a href="how.html">How to Play</a>
+  <div style="max-width:1200px; margin:0 auto; width:100%; padding:0 48px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <span>WikiPath © 2026</span>
+    <div class="footer-links">...</div>
+    <span>Powered by the MediaWiki API</span>
   </div>
-  <span>Powered by the MediaWiki API</span>
 </footer>
 
 <!-- ══ WIN OVERLAY ══ -->
