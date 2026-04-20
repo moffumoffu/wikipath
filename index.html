@@ -11,502 +11,260 @@
     --paper: #f4f0e8;
     --paper-dark: #e8e2d4;
     --accent: #c8102e;
-    --gold: #b8960c;
     --grey: #5a5550;
     --grey-light: #9a9590;
     --border: #2a2420;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Crimson Text', Georgia, serif; min-height: 100vh; }
 
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Crimson Text', Georgia, serif;
-    min-height: 100vh;
-    background-image: repeating-linear-gradient(
-      0deg, transparent, transparent 27px,
-      rgba(0,0,0,0.03) 27px, rgba(0,0,0,0.03) 28px
-    );
-  }
+  .masthead { background: var(--ink); color: var(--paper); }
+  .masthead-meta { display: flex; justify-content: space-between; align-items: center; padding: 10px 48px; border-bottom: 1px solid #2a2a2a; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.1em; }
+  .masthead-logo { text-align: center; padding: 56px 48px 36px; }
+  .masthead-logo h1 { font-family: 'Playfair Display', serif; font-size: clamp(72px, 14vw, 148px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.92; color: var(--paper); }
+  .masthead-logo h1 em { color: var(--accent); font-style: normal; }
+  .masthead-tagline { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--grey-light); margin-top: 20px; }
+  nav { border-top: 1px solid #222; display: flex; justify-content: center; }
+  nav a { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-light); text-decoration: none; padding: 14px 40px; border-right: 1px solid #222; transition: color 0.2s, background 0.2s; }
+  nav a:first-child { border-left: 1px solid #222; }
+  nav a:hover { color: var(--paper); background: #1c1c1c; }
+  nav a.active { color: var(--accent); }
+  .rule-double { border: none; border-top: 4px double var(--accent); }
+  .rule-single { border: none; border-top: 1px solid var(--paper-dark); }
 
-  /* ── MASTHEAD ── */
-  header {
-    background: var(--ink);
-    color: var(--paper);
-    border-bottom: 4px double var(--accent);
-  }
+  /* HERO */
+  .hero { max-width: 960px; margin: 0 auto; padding: 96px 48px 80px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; }
+  .hero-kicker { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
+  .hero-kicker::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: block; flex-shrink: 0; }
+  .hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(38px, 4.5vw, 56px); font-weight: 900; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 24px; }
+  .hero h2 em { font-style: italic; color: var(--accent); }
+  .hero-body { font-size: 19px; line-height: 1.75; color: var(--grey); margin-bottom: 40px; font-style: italic; }
+  .btn-primary { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; padding: 16px 40px; background: var(--ink); color: var(--paper); text-decoration: none; border: 2px solid var(--ink); transition: background 0.2s, color 0.2s; }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
 
-  .masthead-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 40px;
-    border-bottom: 1px solid #333;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--grey-light);
-    letter-spacing: 0.08em;
-  }
+  /* PATH DEMO */
+  .path-demo { background: var(--ink); color: var(--paper); padding: 36px; }
+  .path-demo-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px; }
+  .path-step { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid #1e1e1e; }
+  .path-step:last-of-type { border-bottom: none; }
+  .path-n { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); min-width: 18px; }
+  .path-name { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--paper); flex: 1; }
+  .path-name.win { color: var(--accent); }
+  .path-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--grey-light); letter-spacing: 0.1em; }
+  .path-demo-result { margin-top: 24px; padding-top: 16px; border-top: 1px solid #2a2a2a; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.08em; text-transform: uppercase; }
+  .path-demo-result strong { color: var(--accent); }
 
-  .logo-block {
-    text-align: center;
-    padding: 24px 40px 18px;
-  }
-
-  .logo-block h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(56px, 10vw, 110px);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    color: var(--paper);
-  }
-
-  .logo-block h1 span { color: var(--accent); }
-
-  .tagline {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--grey-light);
-    margin-top: 6px;
-  }
-
-  /* ── NAV STRIP ── */
-  .nav-strip {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    border-top: 1px solid #222;
-  }
-
-  .nav-strip a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--grey-light);
-    text-decoration: none;
-    padding: 10px 28px;
-    border-right: 1px solid #222;
-    transition: color 0.15s, background 0.15s;
-  }
-
-  .nav-strip a:first-child { border-left: 1px solid #222; }
-  .nav-strip a:hover { color: var(--paper); background: #1a1a1a; }
-  .nav-strip a.active { color: var(--accent); }
-
-  /* ── HERO SECTION ── */
-  .hero {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 64px 32px 0;
-    text-align: center;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: none; }
-  }
-
-  .hero-eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-  }
-
-  .hero h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
-  }
-
-  .hero h2 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .hero p {
-    font-size: 19px;
-    line-height: 1.7;
-    color: var(--grey);
-    max-width: 560px;
-    margin: 0 auto 48px;
-    font-style: italic;
-  }
-
-  hr.rule { border: none; border-top: 3px double var(--border); margin: 48px 0; }
-  hr.rule-thin { border: none; border-top: 1px solid var(--paper-dark); margin: 32px 0; }
-
-  /* ── HOW IT WORKS ── */
-  .how-section {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 32px;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .section-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--grey-light);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--paper-dark);
-  }
-
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2px;
-    background: var(--border);
-    border: 2px solid var(--border);
-  }
-
-  .step {
-    background: var(--paper);
-    padding: 28px 24px;
-    transition: background 0.15s;
-  }
-
-  .step:hover {
-  background: #4d4639;
-}
-
-  .step-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 900;
-    color: var(--paper-dark);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .step h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-
-  .step p {
-    font-size: 15px;
-    color: var(--grey);
-    line-height: 1.6;
-  }
-
-  /* ── GAME SECTION ── */
-  .game-section {
-    max-width: 860px;
-    margin: 48px auto 0;
-    padding: 0 32px;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  /* Difficulty cards */
-  .diff-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-    border: 2px solid var(--border);
-    margin-bottom: 28px;
-  }
-
-  .diff-card {
-    background: var(--paper);
-    padding: 28px 20px;
-    cursor: pointer;
-    transition: background 0.15s;
-    position: relative;
-    user-select: none;
-  }
-
-  .diff-card:hover { background: var(--paper-dark); }
-
-  .diff-card.selected {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  .diff-card.selected .diff-desc { color: var(--grey-light); }
+  /* CTA */
+  .cta-block { background: var(--ink); border-top: 4px double var(--accent); border-bottom: 4px double var(--accent); padding: 80px 48px; text-align: center; }
+  .cta-block h3 { font-family: 'Playfair Display', serif; font-size: clamp(34px, 5vw, 54px); font-weight: 900; color: var(--paper); margin-bottom: 10px; letter-spacing: -0.02em; }
+  .cta-block p { font-size: 17px; color: var(--grey-light); font-style: italic; margin-bottom: 48px; }
+  .diff-row { display: flex; gap: 2px; justify-content: center; margin-bottom: 36px; flex-wrap: wrap; }
+  .diff-card { background: #161616; border: 1px solid #2a2a2a; padding: 28px 36px; cursor: pointer; transition: all 0.2s; min-width: 190px; text-align: left; user-select: none; position: relative; }
+  .diff-card:hover { background: #202020; border-color: #444; }
+  .diff-card.selected { background: var(--paper); border-color: var(--paper); }
+  .diff-card.selected .diff-name { color: var(--ink); }
+  .diff-card.selected .diff-sub { color: var(--grey); }
+  .diff-card.selected .diff-tier { color: var(--accent); }
   .diff-card.selected .diff-check { opacity: 1; }
+  .diff-check { position: absolute; top: 12px; right: 14px; color: var(--accent); font-size: 13px; opacity: 0; transition: opacity 0.15s; }
+  .diff-tier { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 10px; }
+  .diff-name { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--paper); margin-bottom: 8px; }
+  .diff-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #555; line-height: 1.6; }
+  .play-btn { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.25em; text-transform: uppercase; padding: 20px 64px; background: var(--accent); color: var(--paper); text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .play-btn:hover { background: #a00d24; transform: translateY(-2px); }
 
-  .diff-check {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    font-size: 14px;
-    color: var(--accent);
-    opacity: 0;
-    transition: opacity 0.15s;
-  }
+  /* FEATURES */
+  .features-section { max-width: 960px; margin: 0 auto; padding: 96px 48px; }
+  .section-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 56px; display: flex; align-items: center; gap: 16px; }
+  .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--paper-dark); }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; }
+  .feat-icon { font-size: 32px; margin-bottom: 18px; display: block; }
+  .feat-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  .feat-desc { font-size: 16px; color: var(--grey); line-height: 1.75; }
 
-  .diff-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: var(--accent);
-  }
+  /* NUMBERS */
+  .numbers { background: var(--paper-dark); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+  .numbers-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+  .num-item { padding: 64px 48px; text-align: center; border-right: 1px solid var(--border); }
+  .num-item:last-child { border-right: none; }
+  .num-big { font-family: 'Playfair Display', serif; font-size: clamp(52px, 7vw, 88px); font-weight: 900; line-height: 1; margin-bottom: 10px; }
+  .num-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
 
-  .diff-card.selected .diff-badge { color: var(--accent); }
+  /* FOOTER */
+  footer { background: var(--ink); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--grey-light); letter-spacing: 0.08em; flex-wrap: wrap; gap: 12px; border-top: 4px double var(--accent); }
+  footer a { color: var(--grey-light); text-decoration: none; transition: color 0.15s; }
+  footer a:hover { color: var(--paper); }
+  .footer-links { display: flex; gap: 28px; }
 
-  .diff-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
+  /* FADE */
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
 
-  .diff-desc {
-    font-size: 14px;
-    color: var(--grey);
-    line-height: 1.5;
-  }
-
-  .diff-examples {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--grey-light);
-    margin-top: 10px;
-    line-height: 1.6;
-  }
-
-  /* ── PLAY BUTTON ── */
-  .play-btn {
-    display: block;
-    width: 100%;
-    padding: 20px;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: background 0.15s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .play-btn:hover { background: var(--accent); }
-
-  .play-btn::after {
-    content: ' →';
-    opacity: 0.6;
-  }
-
-  /* ── STATS STRIP ── */
-  .stats-strip {
-    max-width: 860px;
-    margin: 48px auto 0;
-    padding: 0 32px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-    border: 2px solid var(--border);
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .stat-box {
-    background: var(--paper-dark);
-    padding: 24px 20px;
-    text-align: center;
-  }
-
-  .stat-big {
-    font-family: 'Playfair Display', serif;
-    font-size: 42px;
-    font-weight: 900;
-    line-height: 1;
-  }
-
-  .stat-lbl {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-top: 4px;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    max-width: 860px;
-    margin: 64px auto 0;
-    padding: 24px 32px;
-    border-top: 3px double var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--grey-light);
-    letter-spacing: 0.08em;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  @media (max-width: 600px) {
-    .diff-grid { grid-template-columns: 1fr; }
-    .stats-strip { grid-template-columns: repeat(3,1fr); }
-    .masthead-top span:not(:first-child) { display: none; }
-    .hero { padding: 40px 20px 0; }
-    .how-section, .game-section { padding: 0 20px; }
-    footer { padding: 24px 20px; flex-direction: column; text-align: center; }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px 48px; }
+    .masthead-logo { padding: 40px 24px 28px; }
+    .masthead-meta span:not(:first-child) { display: none; }
+    nav a { padding: 12px 20px; font-size: 10px; }
+    .features-section { padding: 64px 24px; }
+    .features-grid { grid-template-columns: 1fr; gap: 40px; }
+    .numbers-inner { grid-template-columns: 1fr; }
+    .num-item { border-right: none; border-bottom: 1px solid var(--border); padding: 44px 24px; }
+    .num-item:last-child { border-bottom: none; }
+    .diff-row { flex-direction: column; align-items: center; }
+    .diff-card { width: 100%; max-width: 300px; }
+    .cta-block { padding: 56px 24px; }
+    footer { flex-direction: column; text-align: center; padding: 32px 24px; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="masthead-top">
+<header class="masthead">
+  <div class="masthead-meta">
     <span id="date-out">MONDAY, APRIL 2026</span>
     <span>EXPLORE · NAVIGATE · DISCOVER</span>
     <span>EST. 2026</span>
   </div>
-  <div class="logo-block">
-    <h1>Wiki<span>Path</span></h1>
-    <div class="tagline">Navigate the Web of Knowledge</div>
+  <div class="masthead-logo">
+    <h1>Wiki<em>Path</em></h1>
+    <div class="masthead-tagline">Navigate the Web of Knowledge</div>
   </div>
-  <nav class="nav-strip">
+  <nav>
     <a href="index.html" class="active">Home</a>
     <a href="game.html">Play</a>
-    <a href="#how">How to Play</a>
-    <a href="#about">About</a>
+    <a href="how.html">How to Play</a>
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-eyebrow">★ The Wikipedia Navigation Game ★</div>
-  <h2>Can you find the <em>path</em>?</h2>
-  <p>Start on one Wikipedia article. Reach another — using only the links inside each page. The fewer clicks, the better.</p>
-</section>
+<hr class="rule-double">
 
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how">
-  <div class="section-label">How to Play</div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <h3>Pick a Difficulty</h3>
-      <p>Choose Easy, Medium, or Hard. Harder modes use more obscure Wikipedia articles.</p>
+<section>
+  <div class="hero">
+    <div class="hero-left fade-in">
+      <div class="hero-kicker">The Wikipedia Navigation Game</div>
+      <h2>Find the <em>path</em> between any two ideas.</h2>
+      <p class="hero-body">Start on one Wikipedia article. Reach another using only the links inside each page. Think fast, click smart.</p>
+      <a href="#play" class="btn-primary">Choose Difficulty ↓</a>
     </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <h3>Get Your Pages</h3>
-      <p>You're given a random <strong>Start</strong> page and a <strong>Target</strong> page to reach.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <h3>Click Links</h3>
-      <p>Navigate by clicking links inside each article. Every click counts as one move.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <h3>Reach the Target</h3>
-      <p>Land on the target article and win. Fewer clicks = higher rating.</p>
+    <div class="fade-in" style="transition-delay:0.15s;">
+      <div class="path-demo">
+        <div class="path-demo-label">Example game · Easy mode</div>
+        <div class="path-step">
+          <span class="path-n">01</span><span class="path-name">Pizza</span><span class="path-tag">START</span>
+        </div>
+        <div class="path-step">
+          <span class="path-n">02</span><span class="path-name">Italy</span><span class="path-tag">click →</span>
+        </div>
+        <div class="path-step">
+          <span class="path-n">03</span><span class="path-name">Roman Empire</span><span class="path-tag">click →</span>
+        </div>
+        <div class="path-step">
+          <span class="path-n">04</span><span class="path-name win">Gold</span><span class="path-tag">★ WIN</span>
+        </div>
+        <div class="path-demo-result">
+          <span>3 clicks</span><span>Rating: <strong>★★★</strong></span><span>0:42</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<hr class="rule" style="max-width:860px;margin:48px auto;">
+<hr class="rule-single">
 
-<!-- GAME / DIFFICULTY PICKER -->
-<section class="game-section" id="play">
-  <div class="section-label">Choose Difficulty & Play</div>
-
-  <div class="diff-grid">
-    <div class="diff-card selected" data-diff="easy" onclick="selectDiff('easy')">
-      <span class="diff-check">✓</span>
-      <div class="diff-badge">Beginner</div>
-      <div class="diff-title">Easy</div>
-      <div class="diff-desc">Common, well-known Wikipedia topics. Great for your first game.</div>
-      <div class="diff-examples">e.g. Pizza → Ocean<br>Dog → Music</div>
+<section id="play">
+  <div class="cta-block">
+    <h3>Ready to play?</h3>
+    <p>Pick your difficulty and start navigating.</p>
+    <div class="diff-row">
+      <div class="diff-card selected" data-diff="easy" onclick="selectDiff('easy')">
+        <span class="diff-check">✓</span>
+        <div class="diff-tier">Beginner</div>
+        <div class="diff-name">Easy</div>
+        <div class="diff-sub">Common topics<br>Pizza, Tokyo, Music</div>
+      </div>
+      <div class="diff-card" data-diff="medium" onclick="selectDiff('medium')">
+        <span class="diff-check">✓</span>
+        <div class="diff-tier">Intermediate</div>
+        <div class="diff-name">Medium</div>
+        <div class="diff-sub">History & science<br>Darwin, Jazz, Empire</div>
+      </div>
+      <div class="diff-card" data-diff="hard" onclick="selectDiff('hard')">
+        <span class="diff-check">✓</span>
+        <div class="diff-tier">Expert</div>
+        <div class="diff-name">Hard</div>
+        <div class="diff-sub">Obscure topics<br>Ribosome, Topology</div>
+      </div>
     </div>
-    <div class="diff-card" data-diff="medium" onclick="selectDiff('medium')">
-      <span class="diff-check">✓</span>
-      <div class="diff-badge">Intermediate</div>
-      <div class="diff-title">Medium</div>
-      <div class="diff-desc">Historical figures, scientific concepts, art movements.</div>
-      <div class="diff-examples">e.g. Beethoven → Marathon<br>Jazz → Darwin</div>
-    </div>
-    <div class="diff-card" data-diff="hard" onclick="selectDiff('hard')">
-      <span class="diff-check">✓</span>
-      <div class="diff-badge">Expert</div>
-      <div class="diff-title">Hard</div>
-      <div class="diff-desc">Obscure academic topics that'll test your knowledge of Wikipedia's web.</div>
-      <div class="diff-examples">e.g. Ribosome → Quasar<br>Tardigrade → Topology</div>
-    </div>
+    <a id="play-btn" href="game.html?diff=easy" class="play-btn">Begin Journey</a>
   </div>
-
-  <a id="play-btn" href="game.html?diff=easy" class="play-btn">Begin Journey</a>
 </section>
 
-<!-- STATS -->
-<div class="stats-strip" id="about">
-  <div class="stat-box">
-    <div class="stat-big">6M+</div>
-    <div class="stat-lbl">Wikipedia Articles</div>
+<section>
+  <div class="features-section">
+    <div class="section-eyebrow fade-in">What's in the game</div>
+    <div class="features-grid">
+      <div class="fade-in">
+        <span class="feat-icon">🌐</span>
+        <div class="feat-title">Real Wikipedia</div>
+        <p class="feat-desc">Every article is fetched live from Wikipedia. Real links, real knowledge — no fake content.</p>
+      </div>
+      <div class="fade-in" style="transition-delay:0.1s;">
+        <span class="feat-icon">⏱</span>
+        <div class="feat-title">Timer Mode</div>
+        <p class="feat-desc">A live timer tracks your run. Reach the target fast and earn a higher star rating.</p>
+      </div>
+      <div class="fade-in" style="transition-delay:0.2s;">
+        <span class="feat-icon">💡</span>
+        <div class="feat-title">Hints</div>
+        <p class="feat-desc">3 hints per game. They highlight a link pointing you toward the target article.</p>
+      </div>
+    </div>
   </div>
-  <div class="stat-box">
-    <div class="stat-big">∞</div>
-    <div class="stat-lbl">Possible Paths</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-big">~6</div>
-    <div class="stat-lbl">Avg. Clicks to Win</div>
+</section>
+
+<div class="numbers">
+  <div class="numbers-inner">
+    <div class="num-item fade-in">
+      <div class="num-big">6M+</div>
+      <div class="num-label">Wikipedia Articles</div>
+    </div>
+    <div class="num-item fade-in" style="transition-delay:0.1s;">
+      <div class="num-big">∞</div>
+      <div class="num-label">Possible Paths</div>
+    </div>
+    <div class="num-item fade-in" style="transition-delay:0.2s;">
+      <div class="num-big">~6</div>
+      <div class="num-label">Avg. Clicks to Win</div>
+    </div>
   </div>
 </div>
 
 <footer>
   <span>WikiPath © 2026</span>
-  <span>Built with the MediaWiki API</span>
-  <span>Not affiliated with Wikipedia</span>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="game.html">Play</a>
+    <a href="how.html">How to Play</a>
+  </div>
+  <span>Powered by the MediaWiki API</span>
 </footer>
 
 <script>
-  // Set today's date
   const d = new Date();
   document.getElementById('date-out').textContent = d.toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', year: 'numeric'
   }).toUpperCase();
 
-  let selectedDiff = 'easy';
-
   function selectDiff(diff) {
-    selectedDiff = diff;
-    document.querySelectorAll('.diff-card').forEach(c => {
-      c.classList.toggle('selected', c.dataset.diff === diff);
-    });
-    document.getElementById('play-btn').href = `game.html?diff=${diff}`;
+    document.querySelectorAll('.diff-card').forEach(c => c.classList.toggle('selected', c.dataset.diff === diff));
+    document.getElementById('play-btn').href = 'game.html?diff=' + diff;
   }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
