@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WikiPath — How to Play</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f4f0e8;
+    --paper-dark: #e8e2d4;
+    --accent: #c8102e;
+    --grey: #5a5550;
+    --grey-light: #9a9590;
+    --border: #2a2420;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Crimson Text', Georgia, serif; min-height: 100vh; }
+
+  /* ══ MASTHEAD — identical to index.html ══ */
+  .masthead { background: var(--ink); color: var(--paper); }
+
+  .masthead-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 1px solid #2a2a2a;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--grey-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* full-bleed border under meta */
+  .masthead-meta-wrap {
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .masthead-logo {
+    text-align: center;
+    padding: 56px 48px 36px;
+  }
+
+  .masthead-logo a { text-decoration: none; }
+
+  .masthead-logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 14vw, 148px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    color: var(--paper);
+  }
+
+  .masthead-logo h1 em { color: var(--accent); font-style: normal; }
+
+  .masthead-tagline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    margin-top: 20px;
+  }
+
+  nav { border-top: 1px solid #222; display: flex; justify-content: center; }
+  nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    text-decoration: none;
+    padding: 14px 40px;
+    border-right: 1px solid #222;
+    transition: color 0.2s, background 0.2s;
+  }
+  nav a:first-child { border-left: 1px solid #222; }
+  nav a:hover { color: var(--paper); background: #1c1c1c; }
+  nav a.active { color: var(--accent); }
+
+  .rule-double { border: none; border-top: 4px double var(--accent); }
+  .rule-single { border: none; border-top: 1px solid var(--paper-dark); }
+
+  /* ══ PAGE HERO ══ */
+  .page-hero {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 48px 64px;
+    text-align: center;
+  }
+
+  .page-hero .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .page-hero .kicker::before,
+  .page-hero .kicker::after {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    display: block;
+  }
+
+  .page-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .page-hero h2 em { font-style: italic; color: var(--accent); }
+
+  .page-hero p {
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--grey);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ══ STEPS ══ */
+  .steps-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 48px 96px;
+  }
+
+  .section-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--paper-dark); }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 80px;
+  }
+
+  .step-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px 32px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  .step-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--paper);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .step-desc {
+    font-family: 'Crimson Text', serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--grey-light);
+    position: relative;
+  }
+
+  /* ══ RULES ══ */
+  .rules-block {
+    background: var(--paper-dark);
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 80px;
+  }
+
+  .rules-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 64px 48px;
+  }
+
+  .rules-inner .section-eyebrow { margin-bottom: 40px; }
+
+  .rules-list { display: flex; flex-direction: column; gap: 0; }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .rule-item:last-child { border-bottom: none; }
+
+  .rule-bullet {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 3px;
+    min-width: 64px;
+  }
+
+  .rule-text {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .rule-text strong {
+    font-weight: 600;
+  }
+
+  /* ══ SCORING ══ */
+  .scoring-section {
+    margin-bottom: 80px;
+  }
+
+  .scoring-section .section-eyebrow { margin-bottom: 40px; }
+
+  .rating-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .rating-card {
+    border: 2px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    transition: background 0.2s;
+  }
+
+  .rating-card:hover { background: var(--paper-dark); }
+
+  .rating-stars {
+    font-size: 22px;
+    margin-bottom: 14px;
+    letter-spacing: 3px;
+    display: block;
+  }
+
+  .rating-clicks {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .rating-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  /* ══ TIPS ══ */
+  .tips-section {
+    background: var(--ink);
+    border-top: 4px double var(--accent);
+    border-bottom: 4px double var(--accent);
+    padding: 80px 48px;
+    margin-bottom: 0;
+  }
+
+  .tips-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .tips-inner .section-eyebrow {
+    color: var(--grey-light);
+    margin-bottom: 40px;
+  }
+
+  .tips-inner .section-eyebrow::after { background: #2a2a2a; }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .tip-card {
+    border: 1px solid #2a2a2a;
+    padding: 28px 32px;
+    background: #0a0a0a;
+  }
+
+  .tip-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .tip-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--paper);
+    margin-bottom: 10px;
+  }
+
+  .tip-desc {
+    font-family: 'Crimson Text', serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--grey-light);
+  }
+
+  /* ══ CTA ══ */
+  .cta-strip {
+    background: var(--paper-dark);
+    border-bottom: 2px solid var(--border);
+    padding: 72px 48px;
+    text-align: center;
+  }
+
+  .cta-strip h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .cta-strip h3 em { font-style: italic; color: var(--accent); }
+
+  .cta-strip p {
+    font-size: 17px;
+    color: var(--grey);
+    font-style: italic;
+    margin-bottom: 36px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    border: 2px solid var(--ink);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* ══ FOOTER ══ */
+  footer {
+    background: var(--ink);
+    padding: 40px 0;
+    border-top: 4px double var(--accent);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--grey-light);
+    letter-spacing: 0.08em;
+  }
+
+  footer a { color: var(--grey-light); text-decoration: none; transition: color 0.15s; }
+  footer a:hover { color: var(--paper); }
+  .footer-links { display: flex; gap: 28px; }
+
+  /* ══ FADE ══ */
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 760px) {
+    .masthead-logo { padding: 40px 24px 28px; }
+    .masthead-meta { padding: 10px 24px; }
+    .masthead-meta span:not(:first-child) { display: none; }
+    nav a { padding: 12px 20px; font-size: 10px; }
+    .page-hero { padding: 56px 24px 48px; }
+    .steps-section { padding: 0 24px 64px; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .rating-grid { grid-template-columns: repeat(2, 1fr); }
+    .tips-grid { grid-template-columns: 1fr; }
+    .tips-section { padding: 56px 24px; }
+    .rules-inner { padding: 48px 24px; }
+    .cta-strip { padding: 56px 24px; }
+    .footer-inner { flex-direction: column; text-align: center; padding: 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ MASTHEAD ══ -->
+<header class="masthead">
+  <div class="masthead-meta-wrap">
+    <div class="masthead-meta">
+      <span id="date-out">MOFFU</span>
+      <span>EST. 2026</span>
+    </div>
+  </div>
+  <div class="masthead-logo">
+    <a href="index.html">
+      <h1>Wiki<em>Path</em></h1>
+    </a>
+    <div class="masthead-tagline">Navigate the Web of Knowledge</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="game.html">Play</a>
+    <a href="how.html" class="active">How to Play</a>
+  </nav>
+</header>
+
+<hr class="rule-double">
+
+<!-- ══ PAGE HERO ══ -->
+<section>
+  <div class="page-hero fade-in">
+    <div class="kicker">The Rules of the Game</div>
+    <h2>How does <em>WikiPath</em> work?</h2>
+    <p>You start on one Wikipedia article and must reach another — using only the links inside each page. No search bar. No shortcuts. Just your knowledge of how ideas connect.</p>
+  </div>
+</section>
+
+<hr class="rule-single">
+
+<!-- ══ STEPS ══ -->
+<section>
+  <div class="steps-section">
+    <div class="section-eyebrow fade-in" style="margin-top:64px;">The basic flow</div>
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <span class="step-num">1</span>
+        <span class="step-icon">🎯</span>
+        <div class="step-title">Get your mission</div>
+        <p class="step-desc">Two Wikipedia articles are chosen — a start and a target. Your job is to navigate from one to the other.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:0.1s;">
+        <span class="step-num">2</span>
+        <span class="step-icon">🔗</span>
+        <div class="step-title">Click your way through</div>
+        <p class="step-desc">Read the current article and click any blue underlined link to navigate to that Wikipedia page. Each click counts as one move.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:0.2s;">
+        <span class="step-num">3</span>
+        <span class="step-icon">★</span>
+        <div class="step-title">Reach the target</div>
+        <p class="step-desc">Land on the target article to win. The fewer clicks you used and the faster you did it, the higher your star rating.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RULES ══ -->
+<div class="rules-block">
+  <div class="rules-inner">
+    <div class="section-eyebrow fade-in">The rules</div>
+    <div class="rules-list">
+      <div class="rule-item fade-in">
+        <span class="rule-bullet">Rule 01</span>
+        <p class="rule-text">You may only navigate by <strong>clicking links within the current Wikipedia article</strong>. No browser back button, no search bar, no typing URLs.</p>
+      </div>
+      <div class="rule-item fade-in">
+        <span class="rule-bullet">Rule 02</span>
+        <p class="rule-text">Each click on a valid internal Wikipedia link counts as <strong>1 move</strong>. Your total move count is tracked at the top of the screen.</p>
+      </div>
+      <div class="rule-item fade-in">
+        <span class="rule-bullet">Rule 03</span>
+        <p class="rule-text">The goal is to reach the target page in <strong>as few clicks as possible</strong>. A live timer also runs — finishing fast earns a better rating.</p>
+      </div>
+      <div class="rule-item fade-in">
+        <span class="rule-bullet">Rule 04</span>
+        <p class="rule-text">Links to special Wikipedia pages (categories, files, talk pages) are <strong>disabled</strong> — only article links are clickable.</p>
+      </div>
+      <div class="rule-item fade-in">
+        <span class="rule-bullet">Rule 05</span>
+        <p class="rule-text">You have <strong>3 hints</strong> per game. A hint highlights a link on the current page that points toward the target article.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCORING ══ -->
+<section>
+  <div class="steps-section">
+    <div class="section-eyebrow fade-in">Scoring & ratings</div>
+    <div class="scoring-section">
+      <div class="rating-grid">
+        <div class="rating-card fade-in">
+          <span class="rating-stars">★★★</span>
+          <div class="rating-clicks">≤ 3</div>
+          <div class="rating-label">Clicks · Master</div>
+        </div>
+        <div class="rating-card fade-in" style="transition-delay:0.1s;">
+          <span class="rating-stars">★★☆</span>
+          <div class="rating-clicks">4 – 6</div>
+          <div class="rating-label">Clicks · Good</div>
+        </div>
+        <div class="rating-card fade-in" style="transition-delay:0.2s;">
+          <span class="rating-stars">★☆☆</span>
+          <div class="rating-clicks">7 – 10</div>
+          <div class="rating-label">Clicks · Fair</div>
+        </div>
+        <div class="rating-card fade-in" style="transition-delay:0.3s;">
+          <span class="rating-stars">☆☆☆</span>
+          <div class="rating-clicks">11 +</div>
+          <div class="rating-label">Clicks · Keep trying</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DIFFICULTY ══ -->
+<hr class="rule-single">
+<section>
+  <div class="steps-section" style="padding-top:64px;">
+    <div class="section-eyebrow fade-in">Difficulty levels</div>
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <span class="step-num" style="font-size:48px;">E</span>
+        <span class="step-icon">🟢</span>
+        <div class="step-title">Easy</div>
+        <p class="step-desc">Everyday topics — Pizza, Tokyo, Music, Gold. Short distances between articles, well-connected pages. Great for first-timers.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:0.1s;">
+        <span class="step-num" style="font-size:48px;">M</span>
+        <span class="step-icon">🟡</span>
+        <div class="step-title">Medium</div>
+        <p class="step-desc">History, science, and culture — Darwin, Jazz, Empire, Relativity. Requires broader knowledge and more deliberate navigation.</p>
+      </div>
+      <div class="step-card fade-in" style="transition-delay:0.2s;">
+        <span class="step-num" style="font-size:48px;">H</span>
+        <span class="step-icon">🔴</span>
+        <div class="step-title">Hard</div>
+        <p class="step-desc">Obscure and specialised — Ribosome, Topology, Tardigrade, Quasar. Fewer obvious paths. Only for the well-read and the brave.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TIPS ══ -->
+<div class="tips-section">
+  <div class="tips-inner">
+    <div class="section-eyebrow fade-in">Tips & strategy</div>
+    <div class="tips-grid">
+      <div class="tip-card fade-in">
+        <div class="tip-label">Tip 01</div>
+        <div class="tip-title">Think in categories</div>
+        <p class="tip-desc">Most topics connect through broad hubs — countries, historical periods, scientific fields. Navigate toward those first, then zoom in.</p>
+      </div>
+      <div class="tip-card fade-in" style="transition-delay:0.1s;">
+        <div class="tip-label">Tip 02</div>
+        <div class="tip-title">Geography is your friend</div>
+        <p class="tip-desc">Country and city articles are densely linked. If you're stuck, find a geographic connection — it usually opens up new paths quickly.</p>
+      </div>
+      <div class="tip-card fade-in" style="transition-delay:0.15s;">
+        <div class="tip-label">Tip 03</div>
+        <div class="tip-title">Save hints for dead ends</div>
+        <p class="tip-desc">You only get 3 hints per game. Don't waste them early — hold them for when you're genuinely stuck on a sparsely-linked article.</p>
+      </div>
+      <div class="tip-card fade-in" style="transition-delay:0.2s;">
+        <div class="tip-label">Tip 04</div>
+        <div class="tip-title">Skim, don't read</div>
+        <p class="tip-desc">You're not here to learn (well, not only). Skim headings and the first paragraph for relevant links rather than reading every word.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CTA ══ -->
+<div class="cta-strip">
+  <h3>Ready to <em>navigate?</em></h3>
+  <p>Pick a difficulty and start your first game.</p>
+  <a href="game.html" class="btn-primary">Start Playing →</a>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <span>WikiPath © 2026</span>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="game.html">Play</a>
+      <a href="how.html">How to Play</a>
+    </div>
+    <span>Powered by the MediaWiki API</span>
+  </div>
+</footer>
+
+<script>
+  const d = new Date();
+  document.getElementById('date-out').textContent = d.toLocaleDateString('en-US', {
+    weekday: 'long', month: 'long', year: 'numeric'
+  }).toUpperCase();
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
