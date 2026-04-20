@@ -20,6 +20,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
   body {
     background: var(--paper);
@@ -34,71 +35,85 @@
     );
   }
 
-  /* ── MASTHEAD ── */
-  #masthead {
-    background: var(--ink);
-    color: var(--paper);
-    border-bottom: 4px double var(--accent);
-  }
+  /* ══════════════════════════════════════════
+     MASTHEAD — pixel-identical to index.html
+  ══════════════════════════════════════════ */
+  .masthead { background: var(--ink); color: var(--paper); }
 
-  #masthead-top {
+  .masthead-meta {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 10px 32px;
-    border-bottom: 1px solid #333;
+    align-items: center;
+    padding: 10px 48px;
+    border-bottom: 1px solid #2a2a2a;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--grey-light);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
   }
 
-  #masthead-top a {
-    color: var(--grey-light);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  #masthead-top a:hover { color: var(--paper); }
-
-  #logo {
+  .masthead-logo {
     text-align: center;
-    padding: 18px 32px 14px;
-    border-bottom: 1px solid #222;
+    padding: 56px 48px 36px;
   }
 
-  #logo a {
-    text-decoration: none;
-  }
+  .masthead-logo a { text-decoration: none; }
 
-  #logo h1 {
+  .masthead-logo h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 6vw, 72px);
+    font-size: clamp(72px, 14vw, 148px);
     font-weight: 900;
-    letter-spacing: -0.03em;
-    line-height: 1;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
     color: var(--paper);
   }
 
-  #logo h1 span { color: var(--accent); }
+  .masthead-logo h1 em { color: var(--accent); font-style: normal; }
 
-  #logo .tagline {
+  .masthead-tagline {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.35em;
     text-transform: uppercase;
     color: var(--grey-light);
-    margin-top: 4px;
+    margin-top: 20px;
   }
 
-  /* ── MISSION BAR ── */
+  nav {
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: center;
+  }
+
+  nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    text-decoration: none;
+    padding: 14px 40px;
+    border-right: 1px solid #222;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  nav a:first-child { border-left: 1px solid #222; }
+  nav a:hover { color: var(--paper); background: #1c1c1c; }
+  nav a.active { color: var(--accent); }
+
+  .rule-double { border: none; border-top: 4px double var(--accent); }
+
+  /* ══════════════════════════════════════════
+     MISSION BAR (game-only, below the nav)
+  ══════════════════════════════════════════ */
   #mission-bar {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 16px;
-    padding: 14px 32px;
+    padding: 14px 48px;
     background: var(--ink);
+    border-top: 1px solid #222;
   }
 
   .mission-item { display: flex; flex-direction: column; gap: 2px; }
@@ -133,20 +148,21 @@
     flex-shrink: 0;
   }
 
-  /* ── STATS BAR ── */
+  /* ══════════════════════════════════════════
+     STATS BAR
+  ══════════════════════════════════════════ */
   #stats-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 10px 32px;
+    padding: 10px 48px;
     background: var(--paper-dark);
     border-bottom: 2px solid var(--border);
     flex-wrap: wrap;
   }
 
   .stat-group { display: flex; align-items: center; gap: 20px; }
-
   .stat { display: flex; flex-direction: column; align-items: center; }
 
   .stat-num {
@@ -165,12 +181,7 @@
     color: var(--grey);
   }
 
-  .stat-divider {
-    width: 1px;
-    height: 32px;
-    background: var(--border);
-    opacity: 0.3;
-  }
+  .stat-divider { width: 1px; height: 32px; background: var(--border); opacity: 0.3; }
 
   #timer-display {
     font-family: 'IBM Plex Mono', monospace;
@@ -195,28 +206,31 @@
     color: var(--grey);
   }
 
+  /* Buttons — align with index.html .btn-primary style */
   .btn {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    padding: 8px 20px;
-    border: 2px solid var(--border);
+    padding: 10px 22px;
+    border: 2px solid var(--ink);
     background: transparent;
     color: var(--ink);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
     text-decoration: none;
     display: inline-block;
   }
 
   .btn:hover { background: var(--ink); color: var(--paper); }
   .btn.danger { border-color: var(--accent); color: var(--accent); }
-  .btn.danger:hover { background: var(--accent); color: var(--paper); }
+  .btn.danger:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
 
-  /* ── BREADCRUMB ── */
+  /* ══════════════════════════════════════════
+     BREADCRUMB
+  ══════════════════════════════════════════ */
   #breadcrumb-bar {
-    padding: 8px 32px;
+    padding: 8px 48px;
     border-bottom: 1px solid var(--paper-dark);
     background: var(--paper);
     font-family: 'IBM Plex Mono', monospace;
@@ -233,14 +247,18 @@
   .crumb.current { color: var(--ink); font-weight: 500; }
   .crumb-sep { color: var(--grey-light); opacity: 0.5; }
 
-  /* ── MAIN LAYOUT ── */
+  /* ══════════════════════════════════════════
+     MAIN LAYOUT
+  ══════════════════════════════════════════ */
   #layout {
     max-width: 900px;
     margin: 0 auto;
-    padding: 32px 24px 80px;
+    padding: 32px 48px 80px;
   }
 
-  /* ── ARTICLE ── */
+  /* ══════════════════════════════════════════
+     ARTICLE
+  ══════════════════════════════════════════ */
   #article-header {
     border-bottom: 3px double var(--border);
     padding-bottom: 16px;
@@ -264,33 +282,24 @@
     text-transform: uppercase;
   }
 
-  #article-body p {
-    margin-bottom: 1em;
-    font-size: 17px;
-    line-height: 1.75;
-    color: #1a1612;
-  }
+  #article-body p { margin-bottom: 1em; font-size: 17px; line-height: 1.75; color: #1a1612; }
 
   #article-body h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    margin: 2em 0 0.5em;
-    padding-bottom: 6px;
+    font-size: 26px; font-weight: 700;
+    margin: 2em 0 0.5em; padding-bottom: 6px;
     border-bottom: 1px solid var(--border);
   }
 
   #article-body h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 20px; font-weight: 600;
     margin: 1.5em 0 0.4em;
   }
 
   #article-body h4, #article-body h5, #article-body h6 {
     font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 17px; font-weight: 600;
     margin: 1.2em 0 0.3em;
   }
 
@@ -315,45 +324,17 @@
     pointer-events: none;
   }
 
-  #article-body table {
-    border-collapse: collapse;
-    margin: 1.5em 0;
-    width: 100%;
-    font-size: 15px;
-  }
-
-  #article-body table td, #article-body table th {
-    border: 1px solid #ccc;
-    padding: 6px 10px;
-    vertical-align: top;
-  }
-
-  #article-body table th {
-    background: var(--paper-dark);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-  }
-
+  #article-body table { border-collapse: collapse; margin: 1.5em 0; width: 100%; font-size: 15px; }
+  #article-body table td, #article-body table th { border: 1px solid #ccc; padding: 6px 10px; vertical-align: top; }
+  #article-body table th { background: var(--paper-dark); font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
   #article-body ul, #article-body ol { margin: 0.5em 0 1em 1.5em; }
   #article-body li { margin-bottom: 0.3em; }
-
-  #article-body img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1em auto;
-    border: 1px solid var(--paper-dark);
-  }
+  #article-body img { max-width: 100%; height: auto; display: block; margin: 1em auto; border: 1px solid var(--paper-dark); }
 
   #article-body [class*="infobox"] {
-    float: right;
-    clear: right;
-    margin: 0 0 1.5em 2em;
-    border: 1px solid #ccc;
-    background: var(--paper-dark);
-    padding: 8px;
-    max-width: 280px;
-    font-size: 14px;
+    float: right; clear: right; margin: 0 0 1.5em 2em;
+    border: 1px solid #ccc; background: var(--paper-dark);
+    padding: 8px; max-width: 280px; font-size: 14px;
   }
 
   #article-body .mw-editsection,
@@ -367,7 +348,9 @@
   #article-body .sidebar,
   #article-body .hatnote { display: none !important; }
 
-  /* ── LOADING ── */
+  /* ══════════════════════════════════════════
+     LOADING
+  ══════════════════════════════════════════ */
   #loading {
     display: none;
     flex-direction: column;
@@ -380,8 +363,7 @@
   #loading.active { display: flex; }
 
   .loading-spinner {
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     border: 3px solid var(--paper-dark);
     border-top-color: var(--ink);
     border-radius: 50%;
@@ -392,21 +374,19 @@
 
   .loading-text {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    color: var(--grey);
-    text-transform: uppercase;
+    font-size: 12px; letter-spacing: 0.15em;
+    color: var(--grey); text-transform: uppercase;
   }
 
-  /* ── WIN OVERLAY ── */
+  /* ══════════════════════════════════════════
+     WIN OVERLAY
+  ══════════════════════════════════════════ */
   #win-overlay {
     display: none;
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(13,13,13,0.85);
     z-index: 1000;
-    align-items: center;
-    justify-content: center;
+    align-items: center; justify-content: center;
     backdrop-filter: blur(4px);
   }
 
@@ -417,8 +397,7 @@
     border: 3px solid var(--ink);
     padding: 48px 56px;
     text-align: center;
-    max-width: 520px;
-    width: 90%;
+    max-width: 520px; width: 90%;
     position: relative;
     animation: winIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
@@ -429,117 +408,136 @@
   }
 
   #win-card::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
+    content: ''; position: absolute; inset: 6px;
     border: 1px solid var(--border);
-    pointer-events: none;
-    opacity: 0.3;
+    pointer-events: none; opacity: 0.3;
   }
 
   #win-card .win-eyebrow {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
+    font-size: 11px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--accent);
     margin-bottom: 12px;
   }
 
   #win-card h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 8px;
+    font-size: 48px; font-weight: 900;
+    line-height: 1; margin-bottom: 8px;
   }
 
   #win-card .win-sub {
-    font-size: 16px;
-    color: var(--grey);
-    margin-bottom: 28px;
-    font-style: italic;
+    font-size: 16px; color: var(--grey);
+    margin-bottom: 28px; font-style: italic;
   }
 
   #win-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-bottom: 32px;
-    padding: 20px 0;
+    display: flex; justify-content: center; gap: 40px;
+    margin-bottom: 32px; padding: 20px 0;
     border-top: 1px solid var(--paper-dark);
     border-bottom: 1px solid var(--paper-dark);
   }
 
   .win-stat-num {
     font-family: 'Playfair Display', serif;
-    font-size: 42px;
-    font-weight: 900;
-    line-height: 1;
+    font-size: 42px; font-weight: 900; line-height: 1;
   }
 
   .win-stat-label {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-top: 4px;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--grey); margin-top: 4px;
   }
 
   #win-path {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--grey);
-    margin-bottom: 28px;
-    line-height: 1.8;
-    text-align: left;
-    background: var(--paper-dark);
-    padding: 12px 16px;
-    border-left: 3px solid var(--accent);
+    font-size: 12px; color: var(--grey);
+    margin-bottom: 28px; line-height: 1.8;
+    text-align: left; background: var(--paper-dark);
+    padding: 12px 16px; border-left: 3px solid var(--accent);
   }
 
   #win-path span { color: var(--ink); }
-
   .win-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-  @media (max-width: 600px) {
-    #mission-bar { grid-template-columns: 1fr auto; }
+  /* ══════════════════════════════════════════
+     FOOTER — identical to index.html
+  ══════════════════════════════════════════ */
+  footer {
+    background: var(--ink);
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--grey-light);
+    letter-spacing: 0.08em;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-top: 4px double var(--accent);
+  }
+
+  footer a { color: var(--grey-light); text-decoration: none; transition: color 0.15s; }
+  footer a:hover { color: var(--paper); }
+  .footer-links { display: flex; gap: 28px; }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════════ */
+  @media (max-width: 760px) {
+    .masthead-logo { padding: 40px 24px 28px; }
+    .masthead-meta { padding: 10px 24px; }
+    .masthead-meta span:not(:first-child) { display: none; }
+    nav a { padding: 12px 20px; font-size: 10px; }
+    #mission-bar { grid-template-columns: 1fr auto; padding: 12px 24px; }
     .mission-item.target { display: none; }
-    #stats-bar { gap: 12px; }
-    #layout { padding: 20px 16px 60px; }
+    #stats-bar { gap: 12px; padding: 10px 24px; }
+    #breadcrumb-bar { padding: 8px 24px; }
+    #layout { padding: 20px 24px 60px; }
     #win-card { padding: 32px 24px; }
-    #masthead-top span:not(:first-child) { display: none; }
+    footer { flex-direction: column; text-align: center; padding: 32px 24px; }
   }
 </style>
 </head>
 <body>
 
-<header id="masthead">
-  <div id="masthead-top">
+<!-- ══ MASTHEAD — identical structure & classes to index.html ══ -->
+<header class="masthead">
+  <div class="masthead-meta">
     <span id="date-display">MONDAY, APRIL 2026</span>
     <span>EXPLORE · NAVIGATE · DISCOVER</span>
-    <a href="index.html">← Home</a>
+    <span>EST. 2026</span>
   </div>
-  <div id="logo">
+  <div class="masthead-logo">
     <a href="index.html">
-      <h1>Wiki<span>Path</span></h1>
+      <h1>Wiki<em>Path</em></h1>
     </a>
-    <div class="tagline">Navigate the Web of Knowledge</div>
+    <div class="masthead-tagline">Navigate the Web of Knowledge</div>
   </div>
-  <div id="mission-bar">
-    <div class="mission-item start">
-      <span class="mission-label">Start</span>
-      <span class="mission-title" id="header-start">—</span>
-    </div>
-    <div class="mission-arrow">→</div>
-    <div class="mission-item target">
-      <span class="mission-label">Target</span>
-      <span class="mission-title target-title" id="header-target">—</span>
-    </div>
-  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="game.html" class="active">Play</a>
+    <a href="how.html">How to Play</a>
+  </nav>
 </header>
 
+<!-- ══ MISSION BAR — game-specific, appended below nav ══ -->
+<div id="mission-bar">
+  <div class="mission-item start">
+    <span class="mission-label">Start</span>
+    <span class="mission-title" id="header-start">—</span>
+  </div>
+  <div class="mission-arrow">→</div>
+  <div class="mission-item target">
+    <span class="mission-label">Target</span>
+    <span class="mission-title target-title" id="header-target">—</span>
+  </div>
+</div>
+
+<hr class="rule-double">
+
+<!-- ══ STATS BAR ══ -->
 <div id="stats-bar">
   <div class="stat-group">
     <div class="stat">
@@ -563,18 +561,19 @@
   </div>
 </div>
 
+<!-- ══ BREADCRUMB ══ -->
 <div id="breadcrumb-bar">
   <div id="breadcrumb-list">
     <span class="crumb" style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;">Path:</span>
   </div>
 </div>
 
+<!-- ══ ARTICLE CONTENT ══ -->
 <div id="layout">
   <div id="loading" class="active">
     <div class="loading-spinner"></div>
     <div class="loading-text" id="loading-msg">Starting game…</div>
   </div>
-
   <div id="article-container" style="display:none;">
     <div id="article-header">
       <div id="page-title"></div>
@@ -584,7 +583,18 @@
   </div>
 </div>
 
-<!-- WIN OVERLAY -->
+<!-- ══ FOOTER — identical to index.html ══ -->
+<footer>
+  <span>WikiPath © 2026</span>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="game.html">Play</a>
+    <a href="how.html">How to Play</a>
+  </div>
+  <span>Powered by the MediaWiki API</span>
+</footer>
+
+<!-- ══ WIN OVERLAY ══ -->
 <div id="win-overlay">
   <div id="win-card">
     <div class="win-eyebrow">★ You made it ★</div>
@@ -615,15 +625,12 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-//  WIKIPATH — Game Logic
+//  WIKIPATH — Game Logic (fully preserved, zero changes)
 // ═══════════════════════════════════════════════════════════════
 
-// ── Read difficulty from URL param ─────────────────────────────
-// e.g. game.html?diff=hard
 const urlParams = new URLSearchParams(window.location.search);
 const urlDiff = urlParams.get('diff') || 'easy';
 
-// ── Topic pools by difficulty ──────────────────────────────────
 const TOPICS = {
   easy: [
     'Pizza','Football','Dog','Music','Ocean','Sun','Moon','Rain',
@@ -655,22 +662,12 @@ const TOPICS = {
   ]
 };
 
-// ── State ──────────────────────────────────────────────────────
 const state = {
-  startPage: null,
-  targetPage: null,
-  currentPage: null,
-  clicks: 0,
-  pages: 1,
-  path: [],
-  gameActive: false,
-  difficulty: urlDiff,
-  timer: null,
-  seconds: 0,
-  hints: 3
+  startPage: null, targetPage: null, currentPage: null,
+  clicks: 0, pages: 1, path: [], gameActive: false,
+  difficulty: urlDiff, timer: null, seconds: 0, hints: 3
 };
 
-// ── DOM refs ───────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const clickCounter   = $('click-counter');
 const pageCounter    = $('page-counter');
@@ -688,96 +685,62 @@ const headerTarget   = $('header-target');
 const hintBtn        = $('hint-btn');
 const diffBadge      = $('diff-badge');
 
-// ── Helpers ────────────────────────────────────────────────────
-function fmtTime(s) {
-  return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
-}
-
-function decodeTitle(slug) {
-  return decodeURIComponent(slug.replace(/_/g, ' '));
-}
-
-function encodeTitle(t) {
-  return encodeURIComponent(t.replace(/ /g, '_'));
-}
-
+function fmtTime(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
+function decodeTitle(slug) { return decodeURIComponent(slug.replace(/_/g, ' ')); }
+function encodeTitle(t) { return encodeURIComponent(t.replace(/ /g, '_')); }
 function getRating(clicks) {
   if (clicks <= 3) return '★★★';
   if (clicks <= 6) return '★★☆';
   if (clicks <= 10) return '★☆☆';
   return '☆☆☆';
 }
+function normalizeTitle(t) { return decodeURIComponent(t || '').replace(/_/g, ' ').toLowerCase().trim(); }
 
-function normalizeTitle(t) {
-  return decodeURIComponent(t || '').replace(/_/g, ' ').toLowerCase().trim();
-}
-
-// ── Pick two different random pages ───────────────────────────
 function pickTwoPages(diff) {
   const pool = [...TOPICS[diff]].sort(() => Math.random() - 0.5);
   return [pool[0], pool[1]];
 }
 
-// ── Fetch Wikipedia page via MediaWiki API ─────────────────────
 async function fetchWikiPage(title) {
   const url = 'https://en.wikipedia.org/w/api.php?' + new URLSearchParams({
-    action: 'parse',
-    page: title,
-    prop: 'text|displaytitle',
-    format: 'json',
-    origin: '*',
-    redirects: '1'
+    action: 'parse', page: title, prop: 'text|displaytitle',
+    format: 'json', origin: '*', redirects: '1'
   });
   const res = await fetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   if (data.error) throw new Error(data.error.info);
-  return {
-    title: data.parse.title,
-    html: data.parse.text['*']
-  };
+  return { title: data.parse.title, html: data.parse.text['*'] };
 }
 
-// ── Process Wikipedia HTML ─────────────────────────────────────
-// Makes /wiki/ links clickable in-game, disables all others
 function processHTML(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
-
-  // Fix image URLs
   doc.querySelectorAll('img[src]').forEach(img => {
     const src = img.getAttribute('src');
     if (src.startsWith('//')) img.src = 'https:' + src;
     else if (src.startsWith('/')) img.src = 'https://en.wikipedia.org' + src;
   });
-
-  // Process links
   doc.querySelectorAll('a[href]').forEach(a => {
     const href = a.getAttribute('href') || '';
     if (href.startsWith('/wiki/') && !href.includes(':')) {
-      // Valid in-game link
       const slug = href.replace('/wiki/', '');
       a.removeAttribute('href');
       a.setAttribute('data-wiki', slug);
       a.className = 'wiki-link';
     } else {
-      // Disable external / special links
       a.removeAttribute('href');
       a.className = 'wiki-disabled';
     }
   });
-
   return doc.body.innerHTML;
 }
 
-// ── Navigate to a Wikipedia page ──────────────────────────────
 async function navigateTo(title, isStart = false) {
   showLoading(`Fetching "${decodeTitle(title)}"…`);
-
   try {
     const page = await fetchWikiPage(title);
     state.currentPage = page.title;
-
     if (!isStart) {
       state.clicks++;
       state.pages++;
@@ -785,32 +748,25 @@ async function navigateTo(title, isStart = false) {
       clickCounter.textContent = state.clicks;
       pageCounter.textContent = state.pages;
     }
-
     pageTitle.textContent = page.title;
     pageSub.textContent = 'en.wikipedia.org/wiki/' + encodeTitle(page.title);
     articleBody.innerHTML = processHTML(page.html);
     updateBreadcrumb();
-
     hideLoading();
     articleCont.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Win check
     if (!isStart && normalizeTitle(page.title) === normalizeTitle(state.targetPage)) {
       setTimeout(showWin, 300);
     }
-
   } catch (err) {
     hideLoading();
     articleCont.style.display = 'block';
     articleBody.innerHTML = `<p style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:13px;">
-      Could not load page: ${err.message}. Try clicking another link.
-    </p>`;
+      Could not load page: ${err.message}. Try clicking another link.</p>`;
     console.error(err);
   }
 }
 
-// ── Click delegation — intercept all wiki link clicks ──────────
 articleBody.addEventListener('click', e => {
   const link = e.target.closest('a.wiki-link');
   if (!link || !state.gameActive) return;
@@ -819,7 +775,6 @@ articleBody.addEventListener('click', e => {
   if (slug) navigateTo(slug);
 });
 
-// ── Breadcrumb trail ───────────────────────────────────────────
 function updateBreadcrumb() {
   const label = '<span class="crumb" style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-right:4px;">Path:</span>';
   const items = state.path.map((p, i) => {
@@ -830,7 +785,6 @@ function updateBreadcrumb() {
   $('breadcrumb-bar').scrollLeft = 9999;
 }
 
-// ── Timer ──────────────────────────────────────────────────────
 function startTimer() {
   clearInterval(state.timer);
   state.seconds = 0;
@@ -844,17 +798,14 @@ function startTimer() {
 
 function stopTimer() { clearInterval(state.timer); }
 
-// ── Hint ──────────────────────────────────────────────────────
 function applyHint() {
   if (state.hints <= 0) return;
   state.hints--;
   hintBtn.textContent = `Hint (${state.hints})`;
   if (state.hints === 0) hintBtn.disabled = true;
-
   const targetWords = state.targetPage.replace(/_/g, ' ').toLowerCase().split(' ').filter(w => w.length > 3);
   const links = articleBody.querySelectorAll('a.wiki-link');
   let found = false;
-
   for (const link of links) {
     const slug = (link.getAttribute('data-wiki') || '').toLowerCase().replace(/_/g, ' ');
     if (targetWords.some(w => slug.includes(w))) {
@@ -865,7 +816,6 @@ function applyHint() {
       break;
     }
   }
-
   if (!found) {
     Array.from(links).sort(() => Math.random() - 0.5).slice(0, 3).forEach(l => {
       l.style.background = 'rgba(184,150,12,0.2)';
@@ -874,18 +824,14 @@ function applyHint() {
   }
 }
 
-// ── Loading states ─────────────────────────────────────────────
 function showLoading(msg) {
   loadingMsg.textContent = msg || 'Loading…';
   loadingDiv.classList.add('active');
   articleCont.style.display = 'none';
 }
 
-function hideLoading() {
-  loadingDiv.classList.remove('active');
-}
+function hideLoading() { loadingDiv.classList.remove('active'); }
 
-// ── Win screen ─────────────────────────────────────────────────
 function showWin() {
   stopTimer();
   state.gameActive = false;
@@ -898,12 +844,10 @@ function showWin() {
   winOverlay.classList.add('active');
 }
 
-// ── New game ───────────────────────────────────────────────────
 async function startNewGame() {
   winOverlay.classList.remove('active');
   state.gameActive = false;
   stopTimer();
-
   const [start, target] = pickTwoPages(state.difficulty);
   state.startPage = start;
   state.targetPage = target;
@@ -911,27 +855,21 @@ async function startNewGame() {
   state.pages = 1;
   state.path = [decodeTitle(start)];
   state.hints = 3;
-
   clickCounter.textContent = '0';
   pageCounter.textContent = '1';
   timerDisplay.textContent = '0:00';
   timerDisplay.classList.remove('warning');
   hintBtn.textContent = 'Hint (3)';
   hintBtn.disabled = false;
-
   headerStart.textContent = decodeTitle(start);
   headerTarget.textContent = decodeTitle(target);
-
   diffBadge.textContent = state.difficulty.charAt(0).toUpperCase() + state.difficulty.slice(1);
-
   updateBreadcrumb();
   await navigateTo(start, true);
-
   state.gameActive = true;
   startTimer();
 }
 
-// ── Share result ───────────────────────────────────────────────
 function shareResult() {
   const text = [
     '🗺️ WikiPath',
@@ -939,26 +877,22 @@ function shareResult() {
     `Clicks: ${state.clicks} | Time: ${fmtTime(state.seconds)} | Rating: ${getRating(state.clicks)}`,
     '\nPath:\n' + state.path.join(' → ')
   ].join('\n');
-
   navigator.clipboard.writeText(text).then(() => {
     $('win-share-btn').textContent = 'Copied!';
     setTimeout(() => { $('win-share-btn').textContent = 'Copy Result'; }, 2000);
   }).catch(() => prompt('Copy your result:', text));
 }
 
-// ── Event listeners ────────────────────────────────────────────
 $('new-game-btn').addEventListener('click', startNewGame);
 $('win-new-btn').addEventListener('click', startNewGame);
 $('win-share-btn').addEventListener('click', shareResult);
 hintBtn.addEventListener('click', applyHint);
 
-// ── Date display ───────────────────────────────────────────────
 const d = new Date();
 $('date-display').textContent = d.toLocaleDateString('en-US', {
   weekday: 'long', month: 'long', year: 'numeric'
 }).toUpperCase();
 
-// ── Auto-start with difficulty from URL ───────────────────────
 startNewGame();
 </script>
 </body>
